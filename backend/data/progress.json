@@ -1,0 +1,46 @@
+{
+  "default_user": {
+    "cnn": {
+      "attempts": 3,
+      "best_score": 85,
+      "scores": [75, 80, 85],
+      "wrong_topics_history": ["卷积层参数计算"],
+      "latest_score": 85
+    },
+    "backpropagation": {
+      "attempts": 2,
+      "best_score": 65,
+      "scores": [55, 65],
+      "wrong_topics_history": ["链式法则应用"],
+      "latest_score": 65
+    },
+    "transformer": {
+      "attempts": 1,
+      "best_score": 45,
+      "scores": [45],
+      "wrong_topics_history": ["注意力机制计算", "位置编码"],
+      "latest_score": 45
+    },
+    "linear_regression": {
+      "attempts": 2,
+      "best_score": 90,
+      "scores": [85, 90],
+      "wrong_topics_history": [],
+      "latest_score": 90
+    },
+    "neuron": {
+      "attempts": 1,
+      "best_score": 95,
+      "scores": [95],
+      "wrong_topics_history": [],
+      "latest_score": 95
+    },
+    "optimization": {
+      "attempts": 2,
+      "best_score": 40,
+      "scores": [35, 40],
+      "wrong_topics_history": ["Adam优化器原理", "学习率调度"],
+      "latest_score": 40
+    }
+  }
+}
