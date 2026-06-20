@@ -45,6 +45,7 @@ def _get_user_progress(user_id: str) -> dict:
 @router.get("/path/{user_id}")
 async def get_learning_path(user_id: str):
     from core.knowledge_graph import get_knowledge_graph
+    from api.resources import _RESOURCES
     kg = get_knowledge_graph()
     all_topics = kg.get_all_topics()
     progress = _get_user_progress(user_id)
@@ -56,12 +57,20 @@ async def get_learning_path(user_id: str):
         attempts = tp.get("attempts", 0)
         status = "mastered" if attempts > 0 and score >= 80 else "in_progress" if attempts > 0 else "not_started"
         detail = kg.get_topic_detail(t["id"])
+
+        # Calculate resource count and types for this topic
+        matching_resources = [r for r in _RESOURCES if t["id"] in r.get("topic_ids", [])]
+        resource_count = len(matching_resources)
+        resource_types = list(set(r["type"] for r in matching_resources))
+
         nodes.append({
             "id": t["id"], "name": t["name"], "level": t["level"], "difficulty": t["difficulty"],
             "status": status, "score": score, "attempts": attempts,
             "prerequisites": detail["prerequisites"] if detail else [],
             "description": detail["description"] if detail else "",
             "keywords": detail["keywords"] if detail else [],
+            "resource_count": resource_count,
+            "resource_types": resource_types,
         })
 
     total = len(nodes)

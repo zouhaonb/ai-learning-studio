@@ -3,12 +3,15 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { GitBranch, BookOpen, CheckCircle, Clock, ArrowRight, Loader2, Star, Trophy } from "lucide-react";
+import ResourceBadges from "@/components/ResourceBadges";
 
 interface PathNode {
   id: string; name: string; level: number; difficulty: number;
   status: "not_started" | "in_progress" | "mastered";
   score: number; attempts: number; prerequisites: string[];
   description: string; keywords: string[];
+  resource_count?: number;
+  resource_types?: string[];
 }
 interface PathStats { total: number; mastered: number; in_progress: number; not_started: number; avg_score: number; progress_percent: number; }
 
@@ -104,7 +107,19 @@ export default function LearningPathPage() {
                     <p className="text-xs text-gray-600 mb-2 line-clamp-2">{node.description}</p>
                     <div className="flex items-center justify-between">
                       <span className="text-xs text-gray-400">难度 {"★".repeat(node.difficulty)}</span>
-                      {node.status === "mastered" && <Trophy className="w-4 h-4 text-yellow-500" />}
+                      <div className="flex items-center gap-2">
+                        {node.resource_count && node.resource_count > 0 && (
+                          <ResourceBadges
+                            count={node.resource_count}
+                            types={node.resource_types || []}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              router.push(`/resources?topic=${node.id}`);
+                            }}
+                          />
+                        )}
+                        {node.status === "mastered" && <Trophy className="w-4 h-4 text-yellow-500" />}
+                      </div>
                     </div>
                   </div>
                 );

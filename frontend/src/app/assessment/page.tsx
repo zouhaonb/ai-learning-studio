@@ -72,7 +72,7 @@ export default function AssessmentPage() {
           <div className="bg-white rounded-xl border border-gray-200 p-6">
             <h3 className="text-sm font-semibold text-gray-700 mb-4">各知识点掌握详情</h3>
             <div className="space-y-3">
-              {nodes.sort((a, b) => b.score - a.score).map((n) => (
+              {[...nodes].sort((a, b) => b.score - a.score).map((n) => (
                 <div key={n.id} className="flex items-center gap-3">
                   <div className="w-24 text-xs text-gray-700 truncate">{n.name}</div>
                   <div className="flex-1 bg-gray-200 rounded-full h-2.5">
@@ -93,15 +93,24 @@ export default function AssessmentPage() {
               {suggestions.length > 0 ? (
                 <div className="space-y-3">
                   {suggestions.map((s, i) => (
-                    <div key={i} onClick={() => router.push(`/learn/${s.id}`)}
-                      className={`p-3 rounded-lg border-l-4 cursor-pointer hover:shadow-sm transition-all ${s.pri === "高" ? "border-red-500 bg-red-50" : "border-amber-500 bg-amber-50"}`}>
+                    <div key={i}
+                      className={`p-3 rounded-lg border-l-4 ${s.pri === "高" ? "border-red-500 bg-red-50" : "border-amber-500 bg-amber-50"}`}>
                       <div className="flex items-center gap-2 mb-1">
                         <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${s.pri === "高" ? "bg-red-200 text-red-800" : "bg-amber-200 text-amber-800"}`}>{s.pri}</span>
                         <span className="text-sm font-semibold text-gray-800">{s.topic}</span>
-                        <ArrowRight className="w-3.5 h-3.5 text-gray-400 ml-auto" />
                       </div>
                       <p className="text-xs text-gray-700">{s.action}</p>
                       <p className="text-xs text-gray-500 mt-0.5">{s.reason}</p>
+                      <div className="flex items-center gap-2 mt-2">
+                        <button onClick={() => router.push(`/learn/${s.id}`)}
+                          className="text-xs text-blue-600 hover:text-blue-800 underline flex items-center gap-1">
+                          开始学习 <ArrowRight className="w-3 h-3" />
+                        </button>
+                        <button onClick={() => router.push(`/resources?topic=${s.id}`)}
+                          className="text-xs text-amber-600 hover:text-amber-800 underline flex items-center gap-1">
+                          查看相关资源 <ArrowRight className="w-3 h-3" />
+                        </button>
+                      </div>
                     </div>
                   ))}
                 </div>

@@ -3,9 +3,11 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { LayoutDashboard, TrendingUp, BookOpen, Target, Brain, Zap, Loader2, ArrowRight } from "lucide-react";
+import ResourceList from "@/components/ResourceList";
 
 interface PathNode { id: string; name: string; level: number; difficulty: number; status: string; score: number; attempts: number; }
 interface PathStats { total: number; mastered: number; in_progress: number; not_started: number; avg_score: number; progress_percent: number; }
+interface Resource { id: string; title: string; type: string; topic: string; difficulty: number; description: string; agent: string; duration: string; topic_ids?: string[]; }
 
 function RadarChart({ data }: { data: Record<string, number> }) {
   const entries = Object.entries(data);
@@ -33,6 +35,7 @@ export default function DashboardPage() {
   const [stats, setStats] = useState<PathStats | null>(null);
   const [activities, setActivities] = useState<Array<{ topic: string; type: string; time: string; status: string }>>([]);
   const [interests, setInterests] = useState<string[]>([]);
+  const [recommendations, setRecommendations] = useState<Resource[]>([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
@@ -40,11 +43,13 @@ export default function DashboardPage() {
     Promise.all([
       fetch("http://localhost:8000/api/progress/path/default_user").then((r) => { if (!r.ok) throw new Error("progress"); return r.json(); }),
       fetch("http://localhost:8000/api/profile/default_user").then((r) => { if (!r.ok) throw new Error("profile"); return r.json(); }),
-    ]).then(([pathData, profileData]) => {
+      fetch("http://localhost:8000/api/resources/recommendations/default_user").then((r) => { if (!r.ok) throw new Error("recommendations"); return r.json(); }),
+    ]).then(([pathData, profileData, recData]) => {
       setNodes(pathData.nodes || []);
       setStats(pathData.stats || null);
       setActivities(profileData.recent_activities || []);
       setInterests(profileData.interests || []);
+      setRecommendations(recData.recommendations || []);
     }).catch((e) => { console.error("Dashboard load failed:", e); })
     .finally(() => setLoading(false));
   }, []);
@@ -120,10 +125,34 @@ export default function DashboardPage() {
             </div>
           </div>
 
+          {/* 资源推荐区域 */}
+          {weakNodes.length > 0 && recommendations.length > 0 && (
+            <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl border border-amber-200 p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+                  <Target className="w-4 h-4 text-amber-600" />
+                  薄弱环节推荐资源
+                </h3>
+                <button
+                  onClick={() => router.push("/resources")}
+                  className="text-xs text-amber-600 hover:text-amber-800 underline"
+                >
+                  查看全部资源
+                </button>
+              </div>
+              <ResourceList
+                resources={recommendations}
+                compact={true}
+                maxItems={4}
+                viewAllLink="/resources"
+              />
+            </div>
+          )}
+
           <div className="bg-white rounded-xl border border-gray-200 p-6">
             <h3 className="text-sm font-semibold text-gray-700 mb-4">各知识点掌握进度</h3>
             <div className="grid grid-cols-2 gap-4">
-              {nodes.sort((a, b) => b.score - a.score).map((n) => (
+              {[...nodes].sort((a, b) => b.score - a.score).map((n) => (
                 <div key={n.id} onClick={() => router.push(`/learn/${n.id}`)} className="cursor-pointer hover:bg-gray-50 p-2 rounded-lg transition-colors">
                   <div className="flex justify-between text-sm mb-1">
                     <span className="text-gray-700">{n.name}</span>

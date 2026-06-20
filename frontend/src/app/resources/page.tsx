@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { BookOpen, Search, Filter, FileText, HelpCircle, Code, Video, Lightbulb, Loader2, X } from "lucide-react";
 
 const TYPES = [
@@ -24,13 +24,23 @@ export default function ResourcesPage() {
   const [resources, setResources] = useState<Resource[]>([]);
   const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState<Resource | null>(null);
+  const [topicFilter, setTopicFilter] = useState<string | null>(null);
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/resources/list")
-      .then((r) => r.json()).then((d) => setResources(d.resources || []))
-      .catch(console.error).finally(() => setLoading(false));
-  }, []);
+    const topic = searchParams.get("topic");
+    if (topic) {
+      setTopicFilter(topic);
+      fetch(`http://localhost:8000/api/resources/by-topic/${encodeURIComponent(topic)}`)
+        .then((r) => r.json()).then((d) => setResources(d.resources || []))
+        .catch(console.error).finally(() => setLoading(false));
+    } else {
+      fetch("http://localhost:8000/api/resources/list")
+        .then((r) => r.json()).then((d) => setResources(d.resources || []))
+        .catch(console.error).finally(() => setLoading(false));
+    }
+  }, [searchParams]);
 
   const filtered = resources.filter((r) => {
     if (filter !== "all" && r.type !== filter) return false;
@@ -48,6 +58,22 @@ export default function ResourcesPage() {
         </div>
         <div><h2 className="text-lg font-semibold text-gray-900">资源中心</h2><p className="text-xs text-gray-500">智能体为你生成的个性化学习资源 · 共 {resources.length} 份</p></div>
       </div>
+
+      {topicFilter && (
+        <div className="flex items-center gap-2 bg-amber-50 border border-amber-200 rounded-lg px-4 py-2">
+          <Filter className="w-4 h-4 text-amber-600" />
+          <span className="text-sm text-amber-700">正在显示知识点: <strong>{topicFilter}</strong> 的相关资源</span>
+          <button
+            onClick={() => {
+              setTopicFilter(null);
+              router.push("/resources");
+            }}
+            className="ml-auto text-xs text-amber-600 hover:text-amber-800 underline"
+          >
+            清除筛选
+          </button>
+        </div>
+      )}
 
       <div className="flex items-center gap-4">
         <div className="relative flex-1 max-w-md">
