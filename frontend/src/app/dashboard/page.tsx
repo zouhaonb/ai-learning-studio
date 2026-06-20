@@ -37,9 +37,12 @@ export default function DashboardPage() {
   const [interests, setInterests] = useState<string[]>([]);
   const [recommendations, setRecommendations] = useState<Resource[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const router = useRouter();
 
-  useEffect(() => {
+  const loadData = () => {
+    setLoading(true);
+    setError("");
     Promise.all([
       fetch("http://localhost:8000/api/progress/path/default_user").then((r) => { if (!r.ok) throw new Error("progress"); return r.json(); }),
       fetch("http://localhost:8000/api/profile/default_user").then((r) => { if (!r.ok) throw new Error("profile"); return r.json(); }),
@@ -50,11 +53,17 @@ export default function DashboardPage() {
       setActivities(profileData.recent_activities || []);
       setInterests(profileData.interests || []);
       setRecommendations(recData.recommendations || []);
-    }).catch((e) => { console.error("Dashboard load failed:", e); })
+    }).catch((e) => {
+      console.error("Dashboard load failed:", e);
+      setError("加载失败，请确保后端已启动");
+    })
     .finally(() => setLoading(false));
-  }, []);
+  };
+
+  useEffect(() => { loadData(); }, []);
 
   if (loading) return <div className="flex items-center justify-center h-full"><Loader2 className="w-8 h-8 animate-spin text-blue-500" /></div>;
+  if (error) return <div className="flex flex-col items-center justify-center h-full gap-4"><p className="text-gray-500">{error}</p><button onClick={loadData} className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm">重试</button></div>;
 
   // 从实际测试数据构建知识掌握度
   const knowledgeLevel: Record<string, number> = {};
