@@ -1,0 +1,990 @@
+人工智能课程考试复习知识库
+
+========================================================================
+第一部分：人工智能概述
+========================================================================
+
+
+一、人工智能的定义
+
+人工智能（Artificial Intelligence，AI）作为一个学科，至今没有一个被所有人统一接受的定义。Stuart Russell和Peter Norvig在其经典教材《Artificial Intelligence: A Modern Approach》（AIMA）中，从两个维度（思维vs行为、人类vs理性）交叉组合，归纳出四种对人工智能的定义框架。
+
+第一个维度区分关注"思维过程与推理"还是"外在行为表现"。第二个维度区分以"人类表现"为标准还是以"理性"为标准（即是否做了"正确的事"）。由此形成四个象限：
+
+（1）像人类一样思考（Systems that think like humans）
+代表人物：Allen Newell和Herbert Simon。
+核心观点：人工智能是研究如何让计算机模拟人类认知过程的学科。这个定义强调对人类思维内部机制的建模，要求机器不仅仅产生与人类相同的输出，还要经历类似人类的心智过程。
+代表成就：Soar认知架构、认知心理学中的信息处理模型。Haugeland（1985）定义为"让机器去做那些如果由人来做则需要智能的事情的令人兴奋的新尝试"。
+局限性：人类思维过程本身难以完全观测和验证，且人类思维中包含大量非理性成分。
+
+（2）像人类一样行动（Systems that act like humans）
+代表人物：Alan Turing。
+核心观点：人工智能应该使机器在行为上与人类无法区分。Turing在其1950年论文《Computing Machinery and Intelligence》中提出了著名的图灵测试（Turing Test）作为判断机器是否具有智能的操作性定义。
+Kurzweil（1990）定义为"创造执行在人类执行时需要智能的功能的机器的艺术"。
+Rich和Knight（1991）定义为"研究如何让计算机做目前人类做得更好的事情的学科"。
+局限性：仅关注外部行为，忽略了内部机制；可能通过"欺骗"通过测试而非真正理解。
+
+（3）理性地思考（Systems that think rationally）
+代表人物：Aristotle（亚里士多德），逻辑学传统。
+核心观点：人工智能应该基于形式逻辑和正确的推理规则来得出结论。亚里士多德的三段论（syllogism）是最早试图将思维过程规范化的尝试。例如：所有人都是会死的（大前提），苏格拉底是人（小前提），因此苏格拉底是会死的（结论）。
+这一传统被称为"思维法则"（laws of thought）方法。
+局限性：(a) 将非形式化知识转化为形式化逻辑表示十分困难；(b) 在现实世界的复杂场景中，计算资源有限，无法总是在合理时间内得出结论；(c) 仅靠正确的推理不等于理性——有些情况下没有可证明的正确做法，但仍然必须做出决策。
+
+（4）理性地行动（Systems that act rationally）
+代表人物：Russell和Norvig本人推崇的现代AI方法。
+核心观点：智能体（agent）应该根据其所知采取行动，以实现最佳结果。在确定性情况下追求最优结果，在不确定性情况下追求最优期望结果。
+理性智能体（Rational Agent）的定义：一个理性智能体是能够感知环境并执行动作以最大化其性能指标的事物。
+这个定义的优势：(a) 比"理性思考"更通用——正确的推理只是实现理性的机制之一，不是必要条件。例如从热炉上缩手是一种反射行为，比经过深思熟虑后的动作更成功，但它仍然是理性的。(b) 更适合科学发展——理性的标准是数学上定义明确且完全通用的，可以从规格反推设计出可证明达到理性的智能体。
+局限性：完全的理性在实践中不可能实现（计算资源有限），因此实际中需要研究有限理性（bounded rationality）。
+
+考试高频考点：四种定义的对应关系表格、图灵测试的细节、为什么"理性地行动"被认为是最优定义。
+
+
+二、图灵测试完整细节
+
+图灵测试由英国数学家Alan Turing在其1950年的论文《Computing Machinery and Intelligence》中提出。Turing最初将其称为"模仿游戏"（The Imitation Game）。
+
+测试设置：在一个封闭房间内有一个询问者（interrogator），询问者通过文本终端（如键盘和屏幕）与两个回答者A和B进行对话。其中一个回答者是人类，另一个是计算机。询问者不知道哪个是人哪个是机器。
+
+测试过程：询问者可以提出任何问题，不限话题，不限形式。经过足够长时间的对话后（Turing建议为5分钟），询问者需要判断A和B中哪个是人类、哪个是机器。
+
+判定标准：如果询问者无法可靠地（例如超过30%或50%的时间）区分人类和机器，则认为该机器通过了图灵测试。
+
+图灵测试需要的能力模块：
+（a）自然语言处理（Natural Language Processing）：使机器能够用英语等自然语言进行交流。
+（b）知识表示（Knowledge Representation）：存储和检索对话过程中需要的知识。
+（c）自动推理（Automated Reasoning）：根据存储的知识进行推理以回答问题。
+（d）机器学习（Machine Learning）：适应新的情况，扩展知识库。
+（e）计算机视觉（Computer Vision）：如果测试扩展到视频模式，需要感知物体。
+（f）机器人学（Robotics）：如果测试扩展到实体模式，需要与物理世界交互。
+
+对图灵测试的批评：
+- Searle的中文房间论证（Chinese Room Argument，1980）：即使一个系统通过了图灵测试，它也可能不真正"理解"。Searle设想一个人在房间里按照规则手册操作中文符号，虽然对外界来说他似乎理解中文，但实际上他只是在进行符号操作。
+- 图灵测试只考察行为，无法区分真正的理解和模拟的理解。
+- 图灵测试容易被欺骗策略（如故意犯错误、假装无知）所愚弄。
+- 它关注的是人类水平的智能，但很多有价值的AI系统（如下棋程序、医学诊断系统）并不需要像人类一样行事。
+
+图灵的预测：Turing预测到2000年，一台具有100MB存储的计算机能够在5分钟对话中欺骗30%的询问者。2014年，一个名为Eugene Goostman的程序声称通过了图灵测试，但争议很大，因为它利用了伪装成13岁乌克兰男孩的策略来解释语言错误。
+
+考试高频考点：图灵测试的设置和流程、测试所需的能力模块、中文房间论证对图灵测试的批评。
+
+
+三、人工智能三次浪潮的原因分析
+
+第一次浪潮（1956年-1974年）：诞生与乐观期
+
+起因与标志事件：1956年达特茅斯会议（Dartmouth Conference）标志着AI作为独立学科的诞生。John McCarthy、Marvin Minsky、Claude Shannon和Nathaniel Rochester共同组织了这次会议。"Artificial Intelligence"这个术语正是由McCarthy在会议提案中首次正式使用。
+
+此时期的技术成就：(a) 通用问题求解器GPS（General Problem Solver）由Newell和Simon开发，试图通过"手段-目的分析"（means-ends analysis）通用化问题求解。(b) Samuel的西洋跳棋程序展示了机器学习的潜力。(c) 基于逻辑的定理证明程序。(d) ELIZA聊天程序（Weizenbaum，1966）。
+
+第一次AI寒冬（1974-1980年）：资金大幅削减，原因包括：(a) 计算机算力严重不足，当时的硬件无法支撑AI算法的计算需求；(b) 早期承诺过于乐观而未能兑现；(c) 组合爆炸问题——许多AI问题的搜索空间呈指数增长；(d) Moravec悖论——感知和运动控制等对人类而言"容易"的任务对机器极其困难；(e) 感知器局限性——Minsky和Papert在1969年的著作《Perceptrons》中证明单层感知器无法解决XOR等非线性问题，导致对神经网络研究的热情大幅下降。
+
+第二次浪潮（1980年-1987年）：专家系统与商业化
+
+起因：(a) 专家系统（Expert Systems）的成功将AI带入了商业领域。(b) 日本第五代计算机计划（1982年启动）引发了全球AI竞赛。(c) 美国DARPA重新增加AI研究资金。
+
+代表系统：MYCIN（医疗诊断，使用约600条IF-THEN规则诊断血液感染疾病）、R1/XCON（为DEC公司配置VAX计算机订单，每年节省约4000万美元）、DENDRAL（化学分子结构分析）。
+
+技术特点：基于知识的系统（Knowledge-Based Systems），核心是知识工程——从领域专家获取知识并编码为IF-THEN规则。
+
+第二次AI寒冬（1987年-1993年）：原因包括：(a) 专家系统的维护成本极高，规则之间存在冲突和不一致；(b) 知识获取瓶颈（knowledge acquisition bottleneck）——从专家提取知识极其耗时且困难；(c) 专家系统缺乏学习能力，不能从经验中自动改进；(d) 日本第五代计算机计划未能达到预期目标；(e) Lisp机器市场的崩溃。
+
+第三次浪潮（1993年至今）：机器学习与大数据驱动
+
+起因：(a) 互联网的兴起产生了海量数据；(b) 计算能力的指数级增长（摩尔定律、GPU并行计算）；(c) 机器学习算法的理论突破——统计学习理论、反向传播算法的广泛应用、支持向量机、随机森林等；(d) 深度学习的革命——2006年Hinton提出深度信念网络，2012年AlexNet在ImageNet竞赛中大幅领先，2017年Transformer架构提出，2022年ChatGPT引发大语言模型热潮。
+
+标志性事件：1997年IBM深蓝击败国际象棋世界冠军Kasparov；2011年Watson在Jeopardy!节目中击败人类冠军；2016年DeepMind的AlphaGo击败围棋世界冠军李世石；2020年AlphaFold在蛋白质结构预测中取得突破。
+
+考试高频考点：每次浪潮的起止时间与标志性事件、两次AI寒冬的原因对比、专家系统的优缺点。
+
+
+四、符号主义、连接主义、行为主义三大范式对比
+
+符号主义（Symbolicism）又称逻辑主义（Logicism）、心理学派、计算机主义（Computerism）
+
+核心观点：人工智能源于数理逻辑。认知的基元是符号，智能行为可以通过符号操作来实现。人类认知本质上是一种符号计算过程。
+
+理论基础：Newell和Simon的物理符号系统假说（Physical Symbol System Hypothesis，PSSH）：一个物理符号系统拥有必要且充分的手段来进行一般智能行为。即，任何能够进行符号操作的系统，原则上都能表现出智能。
+
+代表技术与成就：(a) 逻辑推理（命题逻辑、谓词逻辑、归结推理）；(b) 专家系统；(c) 通用问题求解器（GPS）；(d) 知识图谱。
+
+优势：推理过程可解释、可审计；能够融入人类已有知识；结果有理论保证。
+
+局限性：(a) 符号接地问题（Symbol Grounding Problem）——符号与其所代表的含义之间的连接问题；(b) 难以处理不确定性、模糊性和噪声；(c) 知识获取瓶颈；(d) 面对大规模感知任务（如图像识别、语音识别）表现不佳。
+
+连接主义（Connectionism）又称仿生学派（Bionicsism）
+
+核心观点：人工智能源于仿生学，特别是对人脑神经网络结构和功能的模拟。智能存在于大量简单处理单元（神经元）之间的连接权重中。
+
+理论基础：(a) Hebb学习规则（1949）——"一起放电的神经元会连接在一起"（neurons that fire together wire together）；(b) 反向传播算法（Rumelhart、Hinton和Williams，1986）；(c) 万能近似定理——具有单个隐藏层和足够神经元的前馈神经网络可以近似任何连续函数。
+
+代表技术：(a) 多层感知器（MLP）；(b) 卷积神经网络（CNN）；(c) 循环神经网络（RNN/LSTM）；(d) Transformer；(e) 生成对抗网络（GAN）。
+
+优势：(a) 能够从数据中自动学习特征表示；(b) 对噪声和不完整数据具有鲁棒性；(c) 在感知任务（图像、语音、自然语言）上表现卓越。
+
+局限性：(a) 可解释性差（"黑箱"问题）；(b) 需要大量训练数据和计算资源；(c) 缺乏明确的推理机制，难以融入先验知识；(d) 对抗样本脆弱性。
+
+行为主义（Behaviorism）又称进化主义、控制论学派
+
+核心观点：人工智能源于控制论。智能不是来自符号推理或神经网络模拟，而是来自智能体与环境的交互行为。智能体现在感知-行动（perception-action）循环中涌现。
+
+理论基础：(a) Brooks的包容体系结构（Subsumption Architecture，1986）——智能行为可以从无表征的反应式行为中涌现；(b) Braitenberg车辆——简单的传感器-执行器连接就能产生看似复杂的"智能"行为；(c) 进化计算——遗传算法、遗传编程等受达尔文进化论启发的优化方法；(d) 强化学习——智能体通过与环境交互获得奖励信号来学习最优策略。
+
+代表技术：(a) Brooks的"Fast, Cheap, and Out of Control"机器人；(b) 遗传算法和进化策略；(c) 强化学习（Q-Learning、Policy Gradient、Deep RL）；(d) 群体智能（蚁群算法、粒子群优化）。
+
+优势：(a) 适合动态、不确定的真实环境；(b) 不需要显式的环境模型；(c) 具有自适应和进化能力；(d) 可以产生鲁棒的实时行为。
+
+局限性：(a) 难以处理需要高级推理的复杂任务；(b) 进化方法计算成本高、收敛慢；(c) 可能陷入局部最优。
+
+考试高频考点：三大学派的核心思想与理论基础对比、物理符号系统假说、符号接地问题、Hebb学习规则、包容体系结构。
+
+========================================================================
+
+
+========================================================================
+第二部分：搜索算法完整版
+========================================================================
+
+
+一、问题的形式化——状态空间搜索
+
+搜索问题可以形式化为一个五元组(S, S0, A, T, C)或六元组(S, S0, A, T, C, G)：
+- S：状态集合（State space）
+- S0：初始状态（Initial state）
+- A：动作集合（Actions），每个动作是一个从状态到状态的函数
+- T：转移模型（Transition model），T(s, a)表示在状态s执行动作a后到达的状态
+- C：代价函数（Cost function），C(s, a, s')表示从状态s经动作a到状态s'的代价
+- G：目标测试（Goal test），判断当前状态是否为目标状态
+
+搜索树（Search Tree）与搜索图（Search Graph）：搜索过程中生成的树结构。根节点为初始状态，每个节点的子节点是通过应用一个动作得到的后继状态。
+
+关键概念：
+- 扩展（Expand）：对一个节点应用所有可能的动作，生成其所有后继节点
+- 边缘/前沿（Fringe/Frontier）：已生成但尚未扩展的节点集合
+- 已探索集（Explored Set/Closed Set）：已经扩展过的节点集合（用于图搜索避免重复）
+- 路径代价（Path Cost）：从初始状态到当前状态的路径上所有动作代价之和
+
+广度优先搜索（Breadth-First Search, BFS）
+
+定义：从初始状态开始，逐层扩展节点，先扩展所有深度为d的节点，再扩展深度为d+1的节点。使用FIFO队列（先进先出）管理边缘。
+
+伪代码：
+函数 BREADTH-FIRST-SEARCH(problem):
+    node = 创建节点(state=problem.INITIAL_STATE)
+    如果 problem.IS_GOAL(node.state) 则返回 SOLUTION(node)
+    frontier = FIFO队列，初始包含node
+    explored = 空集合
+    循环:
+        如果 frontier为空则返回失败
+        node = frontier.出队()
+        将node.state加入explored
+        对于 problem.ACTIONS(node.state) 中的每个action:
+            child = CHILD-NODE(problem, node, action)
+            如果 child.state 不在explored中 且 child不在frontier中:
+                如果 problem.IS_GOAL(child.state) 则返回 SOLUTION(child)
+                frontier.入队(child)
+
+时间复杂度：O(b^d)，其中b是分支因子，d是最浅目标节点的深度。BFS逐层搜索，深度为d的节点数最多为b^d。
+
+空间复杂度：O(b^d)。边缘中最多同时存储深度d的所有节点，即约b^d个节点。这是BFS的主要瓶颈。
+
+完备性：完备。只要分支因子b有限且每步代价有正的下界，BFS保证找到解。
+
+最优性：当所有动作代价相等时是最优的（因为首先找到最浅目标）。当动作代价不等时，BFS不保证最优解，因为它只考虑路径深度而非路径代价。
+
+常见错误：误以为BFS在所有情况下都是最优的。当边权不等时，BFS找到的路径深度最小，但代价不一定最小。
+
+举例：
+图中节点为A-B-C-D-E-F，目标为F。A的后继为B和C，B的后继为D，C的后继为E，D的后继为F。BFS扩展顺序为：A(深度0) -> B, C(深度1) -> D, E(深度2) -> F(深度3)。找到解，路径为A-B-D-F。
+
+考试高频考点：BFS的时间空间复杂度、完备性和最优性条件、与DFS的对比。
+
+
+二、深度优先搜索（Depth-First Search, DFS）
+
+定义：从初始状态开始，总是先扩展边缘中最深的节点。使用LIFO栈（后进先出）管理边缘，等价于递归实现中的回溯搜索。
+
+伪代码：
+函数 DEPTH-FIRST-SEARCH(problem):
+    node = 创建节点(state=problem.INITIAL_STATE)
+    frontier = LIFO栈，初始包含node
+    explored = 空集合
+    循环:
+        如果 frontier为空则返回失败
+        node = frontier.出栈()
+        将node.state加入explored
+        对于 problem.ACTIONS(node.state) 中的每个action:
+            child = CHILD-NODE(problem, node, action)
+            如果 child.state 不在explored中 且 child不在frontier中:
+                如果 problem.IS_GOAL(child.state) 则返回 SOLUTION(child)
+                frontier.入栈(child)
+
+时间复杂度：O(b^m)，其中m是搜索树的最大深度。在最坏情况下，DFS需要遍历整棵树。
+
+空间复杂度：O(b*m)。这是DFS相比BFS的巨大优势——边缘中只需要存储当前路径上的节点及其兄弟节点，即每个深度最多b个节点，总共b*m个。
+
+完备性：不完备。在无限深度的搜索空间中，DFS可能陷入无限分支而永远找不到解（即使解存在）。在有限搜索空间中完备。
+
+最优性：不最优。DFS找到的第一个解不一定是代价最小的——它取决于分支的顺序，可能先探索了一个很深的分支，而最浅的目标在另一个未探索的分支上。
+
+迭代加深搜索（Iterative Deepening Search, IDS）
+
+定义：结合BFS的完备性和最优性与DFS的空间效率。依次进行深度限制为0、1、2、...的DFS搜索，直到找到解。
+
+时间复杂度：O(b^d)。虽然看起来重复搜索浪费了时间，但实际上大部分工作在最深层。总工作量约为(b/(b-1)) * b^d，渐近仍然是O(b^d)。
+
+空间复杂度：O(b*d)。
+
+完备性：完备。最优性：在等代价情况下最优。
+
+常见错误：误以为迭代加深搜索效率很低因为重复搜索。实际上深层搜索占总工作量的绝大部分，因此重复的开销很小。
+
+考试高频考点：DFS空间复杂度O(bm)的优势和不完备性、IDS为什么是实用的最佳无信息搜索策略。
+
+
+三、一致代价搜索（Uniform-Cost Search, UCS）
+
+定义：也称为Dijkstra算法的变体。扩展当前路径代价g(n)最小的节点。使用优先队列管理边缘，按g(n)排序。
+
+伪代码：
+函数 UNIFORM-COST-SEARCH(problem):
+    node = 创建节点(state=problem.INITIAL_STATE, path_cost=0)
+    frontier = 优先队列，初始包含node，按path_cost排序
+    explored = 空集合
+    循环:
+        如果 frontier为空则返回失败
+        node = frontier.出队()  // 取出path_cost最小的节点
+        如果 problem.IS_GOAL(node.state) 则返回 SOLUTION(node)
+        将node.state加入explored
+        对于 problem.ACTIONS(node.state) 中的每个action:
+            child = CHILD-NODE(problem, node, action)
+            如果 child.state 不在explored中:
+                如果 child不在frontier中:
+                    frontier.入队(child)
+                否则如果 child.path_cost < frontier中对应节点的path_cost:
+                    frontier.替换为(child)  // 用更小代价的替换
+
+时间复杂度：O(b^(1+floor(C*/epsilon)))，其中C*是最优解的代价，epsilon是每步代价的最小正数。这比b^d可能指数级增长更多。
+
+空间复杂度：O(b^(1+floor(C*/epsilon)))。
+
+完备性：完备（假设每步代价有正的下界epsilon > 0）。
+
+最优性：最优。UCS保证首先找到代价最小的路径。
+
+注意：UCS不使用启发函数，是A*搜索在h(n)=0时的特例。
+
+考试高频考点：UCS按什么排序（g(n)不是深度）、UCS与BFS的关系（BFS是所有边权相等时的UCS特例）。
+
+
+四、A*搜索算法
+
+定义：A*搜索是启发式搜索的核心算法，结合了UCS的路径代价g(n)和启发函数h(n)的估计代价。节点的评估函数为f(n) = g(n) + h(n)，其中g(n)是从初始状态到节点n的实际路径代价，h(n)是从节点n到目标状态的估计代价（启发函数）。
+
+完整伪代码：
+函数 A-STAR-SEARCH(problem, h):
+    node = 创建节点(state=problem.INITIAL_STATE, path_cost=0)
+    node.f = g(node) + h(node)  // 初始时g(node)=0
+    frontier = 优先队列，初始包含node，按f值排序
+    explored = 空集合
+    循环:
+        如果 frontier为空则返回失败
+        node = frontier.出队()  // 取出f值最小的节点
+        如果 problem.IS_GOAL(node.state) 则返回 SOLUTION(node)
+        将node.state加入explored
+        对于 problem.ACTIONS(node.state) 中的每个action:
+            child = CHILD-NODE(problem, node, action)
+            child.f = child.path_cost + h(child.state)
+            如果 child.state 不在explored中:
+                如果 child不在frontier中:
+                    frontier.入队(child)
+                否则如果 child.path_cost < frontier中对应节点的path_cost:
+                    frontier.替换为(child)
+
+f(n)的含义：f(n) = g(n) + h(n)是对从初始状态经由节点n到达目标状态的总路径代价的估计。g(n)是已走过的实际代价（已知的），h(n)是剩余路径的估计代价（未知的）。A*优先扩展f值最小的节点，即"最有希望"的节点。
+
+A*的最优性证明（反证法）：
+假设A*返回了一个次优解，其代价为C' > C*（C*为最优解代价）。设O是最优路径上的一个尚未扩展的叶节点。由于h是可纳的（admissible），有f(O) = g(O) + h(O) <= g(O) + h*(O) = C*（其中h*(O)是从O到目标的实际最优代价）。因此f(O) <= C* < C' = f(解节点)。这意味着A*会先扩展O而非解节点，矛盾。因此A*返回的必是最优解。
+
+
+五、启发函数（Heuristic Function）
+
+可纳性（Admissibility）定义：
+一个启发函数h(n)是可纳的，当且仅当对于所有节点n，有：
+    0 <= h(n) <= h*(n)
+其中h*(n)是从节点n到目标状态的真实最优路径代价。即h(n)永远不会高估到目标的真实代价。直觉上，可纳启发函数是"乐观的"——它认为代价比实际更小或相等。
+
+一致性（Consistency）/单调性（Monotonicity）定义：
+一个启发函数h(n)是一致的，当且仅当对于所有节点n及其后继节点n'（通过动作a到达），有：
+    h(n) <= c(n, a, n') + h(n')
+    且 h(goal) = 0
+其中c(n, a, n')是从n到n'的动作代价。这类似于三角不等式——从n直接到目标的估计代价不超过先到n'再到目标的估计代价。
+
+一致性的含义：
+(a) 一致的f值沿任何路径单调非减：f(n') = g(n') + h(n') = g(n) + c(n,a,n') + h(n') >= g(n) + h(n) = f(n)。
+(b) 当h一致时，A*第一次扩展到某个状态时，就已经找到了到达该状态的最优路径，因此不需要重新打开已探索的节点。
+(c) 一致性蕴含可纳性（consistency implies admissibility）。
+
+证明一致性蕴含可纳性（归纳法）：
+对FutureCost(s)进行归纳。
+基础情况：对于目标状态，h(goal) = 0 = FutureCost(goal)，满足h(s) <= FutureCost(s)。
+归纳步骤：设s为非目标状态，a为最优动作，s' = Succ(s, a)，即FutureCost(s) = Cost(s, a) + FutureCost(s')。由于Cost(s, a) >= 0，故FutureCost(s') <= FutureCost(s)，由归纳假设h(s') <= FutureCost(s')。由一致性：h(s) <= Cost(s, a) + h(s') <= Cost(s, a) + FutureCost(s') = FutureCost(s)。证毕。
+
+可纳性与一致性的关系：
+(a) 一致性蕴含可纳性（反之不一定）。
+(b) 对于树搜索（Tree Search），使用可纳启发即可保证A*最优。
+(c) 对于图搜索（Graph Search），需要一致启发才能保证A*最优（因为图搜索不重新打开已探索节点）。
+(d) 大多数实践中自然构造的可纳启发函数也是一致的。
+
+启发函数设计方法：
+(a) 松弛法（Relaxation）：减少问题的约束，将松弛问题的最优代价作为原问题的启发。例如八数码问题中，忽略"只能将滑块移到相邻空格"的约束，改为"可以将任意滑块移到任意位置"，得到h1=不在位的滑块数。
+(b) 子问题法：求解更简单的子问题的最优代价作为启发。例如八数码中考虑滑块间相对位置的模式数据库。
+(c) 多个启发的合并：如果h1和h2都是可纳的，则h(n) = max(h1(n), h2(n))也是可纳的，且信息量不低于任何一个。
+(d) 学习法：从经验中学习启发函数。
+
+可纳启发函数越大越好定理：对于两个可纳启发h1和h2，如果对所有节点n有h1(n) <= h2(n)，则h2至少和h1一样有效——即h2不会使A*扩展更多的节点。
+
+考试高频考点：可纳性和一致性的定义与数学公式、一致性蕴含可纳性的证明、图搜索为什么需要一致性、松弛法设计启发函数。
+
+
+六、A*搜索的最优性与完备性
+
+最优性证明（反证法，完整版）：
+设O是代价为C*的最优解路径，SO是一个代价为C' > C*的次优目标状态。假设A*返回SO。
+设n是最优路径O上位于边缘（open list）中的节点。
+(1) 由于h是可纳的：f(n) = g(n) + h(n) <= g(n) + h*(n) = C*
+(2) 由于n没有被选为扩展（SO被选了）：f(n) >= f(SO)
+(3) SO是目标状态：f(SO) = g(SO) + h(SO) = g(SO) + 0 = C'
+(4) 由(1)(2)(3)：C* >= f(n) >= f(SO) = C'，即C* >= C'
+这与C' > C*矛盾。因此A*不会返回次优解。
+
+完备性：A*在以下条件下完备：
+(a) 分支因子b有限。
+(b) 每步动作代价有正下界epsilon > 0。
+(c) 搜索空间中没有无穷多个f值小于f*(最优解代价)的节点。
+满足这些条件时，A*保证会在有限时间内找到解。
+
+A*的最优效率：对于给定的启发函数，没有其他最优搜索算法能保证扩展更少的节点（除了f值相等的节点的平局打破策略）。这是因为A*扩展的每个节点都是证明最优性所必需的。
+
+考试高频考点：A*最优性的反证法证明、A*完备性条件、h=0时A*退化为UCS、h=g+0时A*退化为最佳优先搜索。
+
+
+七、Minimax算法
+
+背景：双人零和博弈（two-player zero-sum game）。一个玩家是最大化玩家（MAX），另一个是最小化玩家（MIN）。一方的收益等于另一方的损失。
+
+博弈树（Game Tree）：
+- 根节点是当前博弈状态
+- MAX层和MIN层交替出现
+- 叶节点有确定的效用值（utility value）
+- MAX试图最大化效用值，MIN试图最小化效用值
+
+效用函数（Utility Function）：从叶节点的视角对博弈结果赋值。例如棋类中赢=+1，平=0，输=-1。
+
+Minimax值定义：
+对于博弈树中的节点s：
+- 如果s是叶节点（终止状态）：Minimax(s) = Utility(s)
+- 如果s是MAX节点：Minimax(s) = max{Minimax(c) : c是s的子节点}
+- 如果s是MIN节点：Minimax(s) = min{Minimax(c) : c是s的子节点}
+
+完整伪代码：
+函数 MINIMAX-DECISION(state):
+    返回 state的子节点中使得 MINIMAX-VALUE(child) 最大的动作
+
+函数 MAX-VALUE(state):
+    如果 IS-TERMINAL(state) 则返回 UTILITY(state)
+    v = -无穷大
+    对于 state的每个后继 successor:
+        v = max(v, MIN-VALUE(successor))
+    返回 v
+
+函数 MIN-VALUE(state):
+    如果 IS-TERMINAL(state) 则返回 UTILITY(state)
+    v = +无穷大
+    对于 state的每个后继 successor:
+        v = min(v, MAX-VALUE(successor))
+    返回 v
+
+时间复杂度：O(b^m)，其中b是分支因子，m是博弈树的深度。
+空间复杂度：O(bm)（使用DFS遍历，只需存储当前路径）。
+
+完备性：完备（在有限博弈树中）。
+最优性：在对手也采取最优策略的假设下，Minimax是最优的。
+
+博弈树示例：
+考虑一个简单的博弈树，深度为3，分支因子为2。
+MAX层（根）有两个选择：A和B。
+A下有MIN节点，分别到达叶节点3和5。
+B下有MIN节点，分别到达叶节点2和9。
+计算：MIN-VALUE(A) = min(3, 5) = 3；MIN-VALUE(B) = min(2, 9) = 2。
+MAX-VALUE(根) = max(3, 2) = 3。因此MAX选择动作A，保证获得效用值3。
+
+考试高频考点：Minimax值的递归定义、MAX/MIN节点的计算、Minimax假设对手是最优的。
+
+
+八、Alpha-Beta剪枝
+
+核心思想：在Minimax搜索过程中，利用已知信息剪掉不可能影响最终决策的子树，从而减少需要探索的节点数。关键是维护两个值：
+- alpha：MAX玩家到目前为止在路径上已确保的最好值（下界）。alpha初始为-无穷大。
+- beta：MIN玩家到目前为止在路径上已确保的最好值（上界）。beta初始为+无穷大。
+
+剪枝规则：
+(a) Alpha剪枝（在MIN节点）：如果当前MIN节点的值v <= alpha，则剪掉剩余子节点。因为MAX在上层已有更好的选择（至少alpha），MIN不会让值低于alpha，所以该分支不可能影响最终决策。
+(b) Beta剪枝（在MAX节点）：如果当前MAX节点的值v >= beta，则剪掉剩余子节点。因为MIN在上层已有更好的选择（最多beta），MAX不会让值超过beta，所以该分支不可能影响最终决策。
+
+条件 alpha >= beta 触发剪枝。
+
+完整伪代码（fail-soft版本，来源：MIT 6.034 / Wikipedia）：
+函数 ALPHA-BETA(node, depth, alpha, beta, maximizingPlayer):
+    如果 depth == 0 或 node是终止节点:
+        返回 node的启发式评估值
+    如果 maximizingPlayer:
+        value = -无穷大
+        对于 node的每个子节点 child:
+            value = max(value, ALPHA-BETA(child, depth-1, alpha, beta, FALSE))
+            如果 value >= beta:
+                中断循环  // Beta剪枝
+            alpha = max(alpha, value)
+        返回 value
+    否则:
+        value = +无穷大
+        对于 node的每个子节点 child:
+            value = min(value, ALPHA-BETA(child, depth-1, alpha, beta, TRUE))
+            如果 value <= alpha:
+                中断循环  // Alpha剪枝
+            beta = min(beta, value)
+        返回 value
+
+完整手动追踪示例（来源：MIT 6.034）：
+
+考虑一个3层博弈树。根节点A是MAX，A有两个子节点B和Q（都是MIN）。
+B有子节点C和J（MAX），Q有子节点R（MAX）。
+C有子节点D和G（MIN），J有子节点K（MIN），R有子节点S和V（MIN）。
+D有叶节点E=10和F=11，G有叶节点H=9和I=12（但被剪枝）。
+K有叶节点L=14和M=6（被剪枝）。
+S有叶节点T=5和U=8（被剪枝），V有叶节点W=4和X=7（被剪枝）。
+
+追踪过程：
+A(Max): alpha=-inf, beta=+inf
+  B(Min): alpha=-inf, beta=+inf
+    C(Max): alpha=-inf, beta=+inf
+      D(Min): alpha=-inf, beta=+inf
+        E(Max): 叶节点=10, 返回10
+        D: beta=min(+inf,10)=10
+        F(Max): 叶节点=11, 返回11
+        D: beta=min(10,11)=10, alpha<beta, 返回10
+      C: alpha=max(-inf,10)=10
+      G(Min): alpha=10, beta=+inf
+        H(Max): 叶节点=9, 返回9
+        G: beta=min(+inf,9)=9
+        G: beta(9) <= alpha(10), 剪枝！G返回9
+      C: alpha=max(10,10)=10, 返回10
+    B: beta=min(+inf,10)=10
+    J(Max): alpha=-inf, beta=10
+      K(Min): alpha=-inf, beta=10
+        L(Max): 叶节点=14, 返回14
+        K: beta=min(10,14)=10, alpha<beta, 返回10（取min但14>10所以beta保持10）
+      （注意：实际上L=14返回后K的beta=min(10,14)=10）
+      J: alpha=max(-inf,10)=10
+      （J的下一个子节点如果值>=beta=10则剪枝）
+      J: 返回10
+    B: beta=min(10,10)=10, 返回10
+  A: alpha=max(-inf,10)=10
+  Q(Min): alpha=10, beta=+inf
+    R(Max): alpha=10, beta=+inf
+      S(Min): alpha=10, beta=+inf
+        T(Max): 叶节点=5, 返回5
+        S: beta=min(+inf,5)=5
+        S: beta(5) <= alpha(10), 剪枝！S返回5
+      R: alpha=max(10,10)=10（5<10所以alpha不变）
+      V(Min): alpha=10, beta=+inf
+        W(Max): 叶节点=4, 返回4
+        V: beta=min(+inf,4)=4
+        V: beta(4) <= alpha(10), 剪枝！V返回4
+      R: 返回10
+    Q: beta=min(+inf,10)=10
+    Q: 返回10
+  A: alpha=max(10,10)=10, 返回10
+
+最终根节点A的值为10。
+
+剪枝比例分析：
+- 最优情况（节点按最优顺序排列）：Alpha-Beta剪枝将需要探索的节点数从O(b^m)减少到O(b^(m/2))，相当于将有效搜索深度翻倍。例如分支因子b=35，深度m=100的国际象棋：Minimax需要探索35^100个节点，而最优Alpha-Beta只需35^50个。
+- 随机情况（节点随机排列）：平均需要探索O(b^(3m/4))个节点。
+- 最差情况（节点排列恰好不好）：无法剪枝，退化为普通Minimax，O(b^m)。
+
+实际经验：在实践中，即使节点不是最优排列，Alpha-Beta通常也能将搜索深度增加50%-100%。
+
+对剪枝结果的影响：Alpha-Beta剪枝不会改变Minimax的最终返回值。被剪枝的子树中的值不会优于已经确定的值，因此剪枝不影响最终决策的正确性。
+
+考试高频考点：Alpha-Beta剪枝的条件（alpha >= beta）、剪枝不会改变Minimax值的原因、最优情况下的复杂度O(b^(m/2))、手动追踪博弈树的剪枝过程。
+
+========================================================================
+
+
+========================================================================
+第三部分：知识表示与推理
+========================================================================
+
+
+一、命题逻辑（Propositional Logic）
+
+基本概念：
+命题（Proposition）：能够判断真假的陈述句。例如"北京是中国的首都"是一个真命题。
+
+原子命题：不能再分解为更简单命题的命题，用大写字母P、Q、R等表示。
+
+联结词（Connectives）：
+
+否定（Negation）：符号为 NOT 或 "一横"。NOT P为真当且仅当P为假。
+合取（Conjunction）：符号为 AND 或 "^"。P AND Q为真当且仅当P和Q都为真。
+析取（Disjunction）：符号为 OR 或 "v"。P OR Q为真当且仅当P或Q至少一个为真。
+蕴含（Implication）：符号为 => 或 "->"。P => Q为假当且仅当P为真且Q为假（即"真前提推出假结论"时为假）。P => Q等价于 (NOT P) OR Q。
+双条件（Biconditional）：符号为 <=> 或 "<->"。P <=> Q为真当且仅当P和Q真值相同。P <=> Q等价于 (P => Q) AND (Q => P)。
+
+完整真值表：
+
+P | Q | NOT P | P AND Q | P OR Q | P => Q | P <=> Q
+---------------------------------------------------
+T | T |  F   |    T    |   T    |   T    |    T
+T | F |  F   |    F    |   T    |   F    |    F
+F | T |  T   |    F    |   T    |    T   |    F
+F | F |  T   |    F    |    F   |    T   |    T
+
+重要等价律：
+双重否定律：NOT(NOT P) <=> P
+德摩根律：NOT(P AND Q) <=> (NOT P) OR (NOT Q)
+         NOT(P OR Q) <=> (NOT P) AND (NOT Q)
+分配律：P AND (Q OR R) <=> (P AND Q) OR (P AND R)
+       P OR (Q AND R) <=> (P OR Q) AND (P OR R)
+逆否命题：P <=> Q  <=>  (NOT Q) <=> (NOT P)
+蕴含消除：P => Q  <=>  (NOT P) OR Q
+交换律：P AND Q <=> Q AND P，P OR Q <=> Q OR P
+结合律：(P AND Q) AND R <=> P AND (Q AND R)
+吸收律：P AND (P OR Q) <=> P，P OR (P AND Q) <=> P
+幂等律：P AND P <=> P，P OR P <=> P
+
+逻辑等价（Logical Equivalence）：两个公式在所有可能的赋值下真值相同，则称它们逻辑等价。
+
+可满足性（Satisfiability）：一个公式是可满足的，当且仅当存在一组赋值使其为真。
+
+重言式（Tautology）：在所有赋值下都为真的公式。
+
+矛盾（Contradiction）：在所有赋值下都为假的公式。
+
+
+二、合取范式（CNF）与析取范式（DNF）
+
+析取范式（DNF，Disjunctive Normal Form）：
+定义：文字的合取的析取。即形如 (L1 AND L2 AND ...) OR (M1 AND M2 AND ...) OR ... 的公式，其中Li, Mi是文字（原子命题或其否定）。
+例如：(P AND Q) OR (NOT P AND R) OR (Q AND NOT R)
+
+合取范式（CNF，Conjunctive Normal Form）：
+定义：文字的析取的合取。即形如 (L1 OR L2 OR ...) AND (M1 OR M2 OR ...) AND ... 的公式，其中Li, Mi是文字。
+例如：(P OR Q OR NOT R) AND (NOT P OR R) AND (Q OR S)
+
+转换为CNF的步骤：
+步骤1：消除蕴含和双条件。
+P => Q 等价于 (NOT P) OR Q
+P <=> Q 等价于 (P => Q) AND (Q => P) = ((NOT P) OR Q) AND ((NOT Q) OR P)
+
+步骤2：将否定符号内移（使用德摩根律和双重否定律）。
+NOT(P AND Q) = (NOT P) OR (NOT Q)
+NOT(P OR Q) = (NOT P) AND (NOT Q)
+NOT(NOT P) = P
+
+步骤3：使用分配律将公式转换为合取范式。
+将OR分配到AND上：P OR (Q AND R) = (P OR Q) AND (P OR R)
+
+步骤4：简化——删除重复文字和重复子句。
+
+转换示例：将 (P => Q) => R 转换为CNF
+步骤1：(NOT(NOT P OR Q)) OR R
+步骤2：(P AND NOT Q) OR R
+步骤3：(P OR R) AND (NOT Q OR R)
+结果为CNF。
+
+考试高频考点：CNF和DNF的定义与区别、蕴含消除规则、转换步骤、归结推理需要CNF形式。
+
+
+三、归结推理（Resolution）
+
+归结规则（Propositional Resolution）：
+如果已知子句 (P OR X1 OR X2 OR ... OR Xn) 和 (NOT P OR Y1 OR Y2 OR ... OR Ym)
+则可以推出归结子句 (X1 OR X2 OR ... OR Xn OR Y1 OR Y2 OR ... OR Ym)
+其中P是消解变量，P和NOT P称为互补文字。
+
+归结推理（Resolution Refutation，反演）：
+目标：证明知识库KB蕴含查询alpha，即KB |= alpha。
+方法：使用归结反演法（proof by refutation）。
+步骤：
+(1) 将KB中的所有公式转换为CNF。
+(2) 将查询的否定NOT alpha转换为CNF，加入子句集。
+(3) 对子句集反复应用归结规则。
+(4) 如果推导出空子句（Empty Clause，记为"口"），则证明完成。空子句表示矛盾，说明NOT alpha与KB不一致，因此KB |= alpha。
+(5) 如果无法推出空子句，则不能证明KB |= alpha。
+
+归结的正确性：归结规则是可靠的（sound），即归结得出的子句是前提的逻辑推论。
+归结的完备性：归结策略对于命题逻辑是完备的（refutationally complete），即如果KB |= alpha，则一定能通过归结推出空子句。
+
+归结推理的策略（控制策略）：
+(a) 单元优先策略（Unit Preference）：优先使用单元子句（只含一个文字的子句）进行归结，因为单元归结的结果更短。
+(b) 纯文字策略（Pure Literal）：如果某文字只以一种极性出现（只有P或只有NOT P），将包含该文字的子句全部删除。
+(c) 支持集策略（Set of Support）：每次归结至少有一个父句来自支持集（通常包含查询的否定及其推论）。
+(d) 输入归结（Input Resolution）：每次归结至少有一个父句来自原始子句集。
+
+归结推理示例：
+已知KB：
+(1) P => Q     即 (NOT P OR Q)
+(2) Q => R     即 (NOT Q OR R)
+(3) P           即 (P)
+证明：KB |= R（即R为真）
+
+步骤：将NOT R加入子句集：
+(4) NOT R
+
+归结过程：
+(5) 由(1)和(3)归结（消解P）：(Q)
+(6) 由(2)和(5)归结（消解Q）：(R)
+(7) 由(6)和(4)归结（消解R）：空子句
+
+推导出空子句，证明KB |= R。
+
+考试高频考点：归结反演的完整步骤、为什么要把NOT alpha加入子句集、空子句的含义、CNF转换在归结中的必要性。
+
+
+四、谓词逻辑（First-Order Logic, FOL）/一阶逻辑
+
+命题逻辑的局限：无法表达对象之间的关系和属性，无法表达"所有"和"存在"的概念。
+
+谓词逻辑的基本元素：
+- 个体常量（Constants）：表示特定对象，如John、Mary、3。
+- 个体变量（Variables）：表示任意对象，如x、y、z。
+- 谓词（Predicates）：表示对象之间的关系或属性。如Human(x)表示"x是人"，Loves(x, y)表示"x爱y"。
+- 函数（Functions）：从对象映射到对象。如Father(x)表示"x的父亲"。
+- 量词（Quantifiers）：
+  全称量词（Universal Quantifier）：符号为"For all"（倒A）。ForAll x P(x)表示"对所有x，P(x)为真"。
+  存在量词（Existential Quantifier）：符号为"There exists"（倒E）。Exists x P(x)表示"存在某个x，使得P(x)为真"。
+
+量词的含义与论域：
+ForAll x P(x)在论域D上为真，当且仅当D中每个个体d都使P(d)为真。
+Exists x P(x)在论域D上为真，当且仅当D中至少存在一个个体d使P(d)为真。
+
+量词之间的关系：
+NOT(ForAll x P(x)) <=> Exists x NOT P(x)（并非所有x满足P，等价于存在x不满足P）
+NOT(Exists x P(x)) <=> ForAll x NOT P(x)（不存在x满足P，等价于所有x都不满足P）
+
+量词辖域（Scope）：量词后面紧跟的公式是其辖域。辖域内的变量被该量词约束。
+约束变量（Bound Variable）：被量词约束的变量。
+自由变量（Free Variable）：不受任何量词约束的变量。
+
+变量换名：同一变量不应被同一个嵌套中的多个量词约束。如 ForAll x P(x) OR ForAll x Q(x) 应改为 ForAll x P(x) OR ForAll y Q(y)。
+
+重要推理规则：
+全称实例化（Universal Instantiation, UI）：从 ForAll x P(x) 可推出 P(c)，其中c是论域中的任意常量。
+存在实例化（Existential Instantiation, EI）：从 Exists x P(x) 可推出 P(c)，其中c是一个新的常量（Skolem常量），之前未在证明中出现过。
+
+考试高频考点：量词的含义与论域、量词的否定关系、约束变量与自由变量、UI和EI规则。
+
+
+五、Skolem化（Skolemization）
+
+定义：Skolem化是将一阶逻辑公式中存在量词消除的过程，通过用Skolem函数（或Skolem常量）替换存在量词约束的变量来实现。Skolem化后的公式与原公式具有相同的可满足性（但不等价）。
+
+Skolem化的规则：
+规则1：如果存在量词不在任何全称量词的辖域内，则用一个新的常量（Skolem常量）替换存在量词约束的变量。例如：Exists x P(x) 变为 P(A)，其中A是Skolem常量。
+
+规则2：如果存在量词在全称量词 ForAll y1, ForAll y2, ..., ForAll yk 的辖域内，则用一个k元Skolem函数f(y1, y2, ..., yk)替换存在量词约束的变量。例如：ForAll x Exists y Loves(x, y) 变为 ForAll x Loves(x, f(x))，其中f是Skolem函数。
+
+Skolem化示例：
+原始公式：ForAll x (Exists y (Loves(x, y)) => Exists z (Kills(x, z)))
+
+步骤1：消除蕴含。ForAll x (NOT Exists y Loves(x, y) OR Exists z Kills(x, z))
+步骤2：将否定内移。ForAll x (ForAll y NOT Loves(x, y) OR Exists z Kills(x, z))
+步骤3：标准化变量换名。确保不同存在量词使用不同变量名。
+步骤4：Skolem化。Exists y不在任何全称量词辖域内？不对，ForAll x在外层，ForAll y在NOT后。
+实际上需要仔细分析：ForAll x (ForAll y NOT Loves(x, y) OR Exists z Kills(x, z))
+Exist z在ForAll x的辖域内，所以z替换为Skolem函数g(x)。
+得到：ForAll x (ForAll y NOT Loves(x, y) OR Kills(x, g(x)))
+然后去掉全称量词（移CNF时隐含）：(NOT Loves(x, y) OR Kills(x, g(x)))
+
+考试高频考点：Skolem函数vs Skolem常量的使用条件、Skolem化前必须先消除蕴含和将否定内移、Skolem化不保持等价性但保持可满足性。
+
+
+六、合一算法（Unification Algorithm）
+
+定义：合一是找到一个替换（substitution），使得两个逻辑表达式在该替换下变得相同的过程。
+
+替换（Substitution）：一个从变量到项的映射，记为theta = {x1/t1, x2/t2, ...}，表示将变量xi替换为项ti。
+
+合一的定义：两个表达式alpha和beta是可合一的（unifiable），当且仅当存在一个替换theta使得alpha.theta = beta.theta。theta称为合一子（unifier）。最一般合一子（Most General Unifier, MGU）是使得替换最少的合一子。
+
+合一算法（Lifting/Find-Substitution算法的简化版本）：
+
+函数 UNIFY(x, y, theta):
+    如果 theta = 失败 则返回 失败
+    如果 x = y 则返回 theta
+    如果 x是变量 则返回 UNIFY-VAR(x, y, theta)
+    如果 y是变量 则返回 UNIFY-VAR(y, x, theta)
+    如果 x和y都是复合表达式（谓词或函数）:
+        返回 UNIFY(x的参数列表, y的参数列表, UNIFY(x的函数符号, y的函数符号, theta))
+    否则返回 失败
+
+函数 UNIFY-VAR(var, x, theta):
+    如果 {var/val} 在theta中 则返回 UNIFY(val, x, theta)
+    如果 {x/val} 在theta中 则返回 UNIFY(var, val, theta)
+    如果 OCCUR-CHECK(var, x) 则返回 失败  // var出现在x中
+    否则 返回 theta并加入{var/x}
+
+合一算法示例：
+Unify(Knows(John, x), Knows(y, SisterOf(y)))
+步骤1：函数符号相同，进入参数列表合一。
+步骤2：UNIFY(John, y, {}) = {y/John}
+步骤3：UNIFY(x, SisterOf(John), {y/John}) = {y/John, x/SisterOf(John)}
+合一子theta = {y/John, x/SisterOf(John)}
+验证：Knows(John, SisterOf(John)) 对两个表达式都成立。
+
+合一失败的示例：
+Unify(Knows(John, x), Knows(x, Mary))
+尝试{x/John}：Knows(John, John) vs Knows(John, Mary)——John != Mary，失败。
+这个例子说明需要Occur Check和变量替换的正确处理。
+
+考试高频考点：合一的定义、MGU的概念、合一算法的步骤、Occur Check的必要性。
+
+
+七、谓词逻辑的归结反演（Resolution in FOL）
+
+完整步骤：
+
+步骤1：将所有公式转换为前束范式（Prenex Normal Form, PNF）。
+前束范式是所有量词都在公式最前面的形式。如：ForAll x Exists y (P(x, y) => Q(y))
+
+步骤2：Skolem化——消除所有存在量词，用Skolem函数或Skolem常量替换。
+
+步骤3：去掉全称量词前缀（因为转换为CNF后隐含全称量化）。
+
+步骤4：将矩阵部分转换为CNF（与命题逻辑的CNF转换相同）。
+
+步骤5：使用合一辅助的归结规则进行推导。
+一阶归结与命题归结的区别：需要先找到合一子theta，使得两个文字的互补对可以消解。
+例如：(P(x, f(a)) OR Q(x)) 和 (NOT P(b, y) OR R(y))
+先合一P(x, f(a))和P(b, y)：theta = {x/b, y/f(a)}
+归结结果：(Q(b) OR R(f(a)))
+
+步骤6：反复应用归结直到推出空子句，或无法继续推导。
+
+谓词逻辑归结反演完整示例：
+已知："所有人都会死。苏格拉底是人。"证明"苏格拉底会死。"
+
+知识库：
+(1) ForAll x (Human(x) => Mortal(x))  => CNF: NOT Human(x) OR Mortal(x)
+(2) Human(Socrates)
+
+查询：Mortal(Socrates)
+否定查询：NOT Mortal(Socrates)，加入子句集。
+
+子句集：
+(1) NOT Human(x) OR Mortal(x)
+(2) Human(Socrates)
+(3) NOT Mortal(Socrates)
+
+归结过程：
+(4) 由(1)和(2)合一{x/Socrates}，消解Human：Mortal(Socrates)
+(5) 由(4)和(3)消解Mortal：空子句
+
+证毕。
+
+考试高频考点：谓词逻辑归结反演的完整步骤（从自然语言到空子句）、Skolem化与合一在归结中的作用、变量替换theta的应用。
+
+
+八、贝叶斯网络（Bayesian Network）
+
+定义：贝叶斯网络是一种用有向无环图（DAG）表示一组变量及其条件依赖关系的概率图模型。图中的节点代表随机变量，有向边代表变量间的条件依赖关系。每个节点Xi关联一个条件概率表（CPT，Conditional Probability Table），给出在给定其父节点Parents(Xi)条件下Xi的概率分布：P(Xi | Parents(Xi))。
+
+贝叶斯网络的核心性质：每个变量在给定其父节点的条件下，与其所有非后代节点条件独立。即：
+    P(Xi | Parents(Xi), NonDescendants(Xi)) = P(Xi | Parents(Xi))
+
+联合概率分布的分解：
+给定贝叶斯网络G = (X1, X2, ..., Xn)（节点按拓扑排序），联合概率分布可以分解为：
+    P(X1, X2, ..., Xn) = PRODUCT(i=1 to n) P(Xi | Parents(Xi))
+
+例如，对于网络 A -> B, A -> C, B -> D, C -> D：
+P(A, B, C, D) = P(A) * P(B|A) * P(C|A) * P(D|B, C)
+
+这种分解大大减少了参数数量。如果每个变量是二值的，完整的联合分布需要2^n - 1个参数，而贝叶斯网络可能只需要O(n * 2^k)个参数，其中k是最大父节点数。
+
+条件概率表（CPT）示例：
+考虑一个简单的贝叶斯网络：Cloudy -> Sprinkler, Cloudy -> Rain，然后 Sprinkler, Rain -> WetGrass。
+
+Cloudy的CPT：
+P(Cloudy=T) = 0.4，P(Cloudy=F) = 0.6
+
+Sprinkler的CPT（父节点Cloudy）：
+P(Sprinkler=T | Cloudy=T) = 0.1
+P(Sprinkler=T | Cloudy=F) = 0.5
+
+Rain的CPT（父节点Cloudy）：
+P(Rain=T | Cloudy=T) = 0.8
+P(Rain=T | Cloudy=F) = 0.2
+
+WetGrass的CPT（父节点Sprinkler, Rain）：
+P(WetGrass=T | Sprinkler=T, Rain=T) = 0.99
+P(WetGrass=T | Sprinkler=T, Rain=F) = 0.90
+P(WetGrass=T | Sprinkler=F, Rain=T) = 0.90
+P(WetGrass=T | Sprinkler=F, Rain=F) = 0.01
+
+考试高频考点：联合概率分解公式、CPT的读取和应用、贝叶斯网络如何减少参数数量。
+
+
+九、D-Separation（有向分离）与条件独立性
+
+D-Separation用于判断贝叶斯网络中两组节点之间是否在给定第三组节点观测时条件独立。
+
+定义：在贝叶斯网络中，给定观测集E，如果X和Y之间的所有无向路径都被E"阻塞"（d-separated），则X和Y在给定E时条件独立，记为(X _||_ Y | E)。
+
+路径阻塞的判断基于三种基本结构：
+
+结构一：链（Chain / Causal Chain）
+形如 X -> Z -> Y
+含义：X通过Z影响Y，Z是中介变量。
+条件独立性：如果Z被观测（Z in E），则路径被阻塞，X _||_ Y | Z。
+直觉：已知Z的情况下，知道X不会给你关于Y的额外信息。
+例如：Cloudy -> Rain -> TrafficJam。已知Rain的情况下，Cloudy和TrafficJam条件独立。
+公式推导：P(X, Y | Z) = P(X | Z) * P(Y | Z)
+
+结构二：分叉（Fork / Common Cause）
+形如 X <- Z -> Y
+含义：X和Y有共同原因Z。
+条件独立性：如果Z被观测（Z in E），则路径被阻塞，X _||_ Y | Z。
+直觉：已知共同原因的情况下，两个结果独立。例如：已知天气（Cloudy）的情况下，洒水器（Sprinkler）和下雨（Rain）独立。
+公式推导：P(X, Y | Z) = P(X | Z) * P(Y | Z)
+
+结构三：对撞（Collider / V-Structure / Explaining Away）
+形如 X -> Z <- Y
+含义：X和Y是Z的共同原因（Z是X和Y的汇聚点）。
+条件独立性：这是最特殊的情况——如果Z及其后代都未被观测，则路径被阻塞，X _||_ Y（无条件独立）。
+但是：如果Z或Z的后代被观测，则路径被"激活"，X和Y变得相关（conditionally dependent）。
+直觉：对撞结构产生了"解释消除"（explaining away）效应。例如：Alarm可以由Burglary或Earthquake引起。通常Burglary和Earthquake是独立的（无条件独立）。但如果我们观测到Alarm响了（Z被观测），知道不是入室盗窃就会增加地震的概率——两者变得相关。
+公式推导：P(X, Y) = P(X) * P(Y)（无条件独立），但 P(X, Y | Z) != P(X | Z) * P(Y | Z)（条件不独立）。
+
+D-Separation判断规则总结：
+对于网络中X到Y的每条无向路径，检查路径上的每个中间节点Z：
+(1) 如果路径结构为链(Z是中间节点，X -> Z -> Y)或分叉(Z是中间节点，X <- Z -> Y)：
+    如果Z在观测集E中 -> 路径被阻塞
+    如果Z不在E中 -> 路径未被阻塞
+(2) 如果路径结构为对撞(Z是汇聚点，X -> Z <- Y)：
+    如果Z或Z的任何后代在E中 -> 路径未被阻塞（被激活）
+    如果Z和Z的所有后代都不在E中 -> 路径被阻塞
+
+如果X和Y之间的所有路径都被E阻塞，则X和Y在给定E时D-Separated，即条件独立。
+
+D-Separation完整示例：
+网络结构：Cloudy -> Sprinkler, Cloudy -> Rain, Sprinkler -> WetGrass, Rain -> WetGrass
+
+问：Sprinkler和Rain是否在给定{Cloudy}时条件独立？
+路径：Sprinkler <- Cloudy -> Rain（分叉结构，中间节点Cloudy在观测集中）
+结论：路径被阻塞，Sprinkler _||_ Rain | Cloudy。
+
+问：Sprinkler和Rain是否在给定{WetGrass}时条件独立？
+路径：Sprinkler <- Cloudy -> Rain（分叉结构，Cloudy不在观测集中，路径未被阻塞）
+路径：Sprinkler -> WetGrass <- Rain（对撞结构，WetGrass在观测集中，路径被激活）
+结论：有路径未被阻塞，Sprinkler和Rain在给定WetGrass时条件不独立（解释消除效应）。
+
+问：Cloudy和WetGrass是否在给定{Sprinkler}时条件独立？
+路径1：Cloudy -> Sprinkler -> WetGrass（链结构，Sprinkler在观测集中，阻塞）
+路径2：Cloudy -> Rain -> WetGrass（链结构，Rain不在观测集中，未阻塞）
+结论：路径2未被阻塞，Cloudy和WetGrass在给定Sprinkler时条件不独立。
+
+考试高频考点：三种结构的识别、链和分叉被观测阻塞vs对撞被观测激活的区别、解释消除效应、手动判断条件独立性。
+
+
+十、贝叶斯网络精确推理——变量消除法（Variable Elimination）
+
+定义：变量消除法是贝叶斯网络精确推理的一种算法，通过逐步消去查询中不需要的变量来计算条件概率。
+
+核心思想：将联合概率分解为因子的乘积，然后通过求和消去隐藏变量，最后归一化得到查询概率。
+
+关键操作：
+(a) 初始化：为每个变量创建一个因子（factor），因子是变量取值组合到概率值的映射。每个因子对应CPT中的一行。
+(b) 证据设置（Evidence Incorporation）：对于观测到的变量（证据变量），将因子中与观测值不一致的行删除。
+(c) 逐个消去隐藏变量：选择一个非查询非证据的变量Z，将包含Z的所有因子相乘（逐点相乘），然后对Z的所有取值求和，得到一个新的因子（不再包含Z）。
+(d) 最后剩下的因子只包含查询变量，将它们相乘并归一化得到后验概率。
+
+因子乘法：两个因子f1(X1,...,Xj, Y)和f2(Y, Z1,...,Zk)关于Y的乘积为：
+f(X1,...,Xj, Y, Z1,...,Zk) = f1(X1,...,Xj, Y) * f2(Y, Z1,...,Zk)
+即对每个(X1,...,Xj, Y, Z1,...,Zk)的赋值组合，将f1和f2对应值相乘。
+
+变量求和（消去）：消去因子f(X1,...,Xj, Y, Z1,...,Zk)中的变量Y：
+g(X1,...,Xj, Z1,...,Zk) = SUM over y f(X1,...,Xj, y, Z1,...,Zk)
+
+变量消除法完整示例：
+使用前述Cloudy-Sprinkler-Rain-WetGrass网络。
+查询：P(WetGrass | Cloudy=T)
+已知证据：Cloudy=T
+
+步骤1：列出所有因子
+f_C(Cloudy) = P(Cloudy)
+f_S(Sprinkler, Cloudy) = P(Sprinkler | Cloudy)
+f_R(Rain, Cloudy) = P(Rain | Cloudy)
+f_W(WetGrass, Sprinkler, Rain) = P(WetGrass | Sprinkler, Rain)
+
+步骤2：设置证据Cloudy=T，因子简化为：
+f_C(Cloudy=T) = 0.4（常数）
+f_S(Sprinkler) = P(Sprinkler | Cloudy=T)：f_S(T)=0.1, f_S(F)=0.9
+f_R(Rain) = P(Rain | Cloudy=T)：f_R(T)=0.8, f_R(F)=0.2
+f_W(WetGrass, Sprinkler, Rain) = P(WetGrass | Sprinkler, Rain)
+
+步骤3：消去隐藏变量Sprinkler
+先将f_S(Sprinkler)和f_W(WetGrass, Sprinkler, Rain)相乘得到f_SW(WetGrass, Rain)：
+f_SW(WetGrass, Rain) = SUM_s f_S(s) * f_W(WetGrass, s, Rain)
+
+例如f_SW(W=T, R=T) = f_S(T)*f_W(T,T,T) + f_S(F)*f_W(T,F,T) = 0.1*0.99 + 0.9*0.90 = 0.099 + 0.81 = 0.909
+
+步骤4：消去隐藏变量Rain
+将f_SW(WetGrass, Rain)和f_R(Rain)相乘，对Rain求和：
+f_W'(WetGrass) = SUM_r f_SW(WetGrass, r) * f_R(r)
+
+步骤5：归一化
+P(WetGrass=T | Cloudy=T) = f_W'(T) / (f_W'(T) + f_W'(F))
+
+变量消除顺序的选择会显著影响计算效率。最优消元顺序问题是NP-hard的。启发式方法通常选择产生最小因子的变量先消去。
+
+考试高频考点：变量消除法的操作步骤（初始化因子、设置证据、消去变量、归一化）、因子乘法和求和的操作、为什么需要归一化、消元顺序对效率的影响。
+
+========================================================================
+课程考试高频考点总结
+========================================================================
+
+选择题常考：
+1. Russell和Norvig的四种AI定义分别对应的代表。
+2. A*搜索中f(n)=g(n)+h(n)各项的含义。
+3. BFS/DFS/UCS/A*的完备性、最优性条件对比表。
+4. 命题逻辑联结词的真值（特别是蕴含 P=>Q 当P真Q假时为假）。
+5. D-Separation三种结构的识别及条件独立性判断。
+6. Skolem化中Skolem常量与Skolem函数的使用条件。
+7. Alpha-Beta剪枝的条件（alpha >= beta）。
+
+计算题常考：
+1. 给定图，手算BFS/DFS/UCS/A*的搜索过程和返回路径。
+2. 给定启发函数，验证其可纳性和一致性。
+3. 给定博弈树，手算Minimax值和Alpha-Beta剪枝过程。
+4. 将命题逻辑公式转换为CNF形式。
+5. 命题逻辑和谓词逻辑的归结反演推导。
+6. 贝叶斯网络的D-Separation条件独立性判断。
+7. 贝叶斯网络的变量消除法推理。
+
+证明题常考：
+1. A*搜索最优性的反证法证明。
+2. 一致性蕴含可纳性的归纳法证明。
+3. 归结规则的可靠性证明。
+
+========================================================================
+参考文献
+========================================================================
+
+[1] Russell, S. J., & Norvig, P. (2021). Artificial Intelligence: A Modern Approach (4th ed.). Pearson.
+[2] Berkeley CS188 Introduction to Artificial Intelligence Course Materials.
+[3] Stanford CS221: Artificial Intelligence: Principles and Techniques.
+[4] MIT 6.034: Artificial Intelligence.
+[5] Turing, A. M. (1950). Computing Machinery and Intelligence. Mind, 59(236), 433-460.
+[6] Knuth, D. E., & Moore, R. W. (1975). An analysis of alpha-beta pruning. Artificial Intelligence, 6(4), 293-326.
