@@ -88,19 +88,6 @@ async def list_resources(user_id: str = "default_user", resource_type: str | Non
     return {"resources": filtered, "total": len(filtered)}
 
 
-@router.get("/{resource_id}")
-async def get_resource(resource_id: str):
-    for r in _RESOURCES:
-        if r["id"] == resource_id:
-            return r
-    return {"error": "Resource not found"}
-
-
-@router.post("/generate")
-async def generate_resource(request: dict):
-    return {"status": "generating", "task_id": "pending"}
-
-
 @router.get("/by-topic/{topic_id}")
 async def get_resources_by_topic(topic_id: str):
     """Get resources related to a specific knowledge graph topic"""
@@ -122,10 +109,12 @@ async def get_recommendations(user_id: str):
 
     # Find resources matching weak topics
     recommendations = []
+    seen_ids = set()
     for topic_id in weak_topic_ids:
         matching = [r for r in _RESOURCES if topic_id in r.get("topic_ids", [])]
         for r in matching:
-            if r["id"] not in [rec["id"] for rec in recommendations]:
+            if r["id"] not in seen_ids:
+                seen_ids.add(r["id"])
                 recommendations.append({**r, "weak_topic_id": topic_id})
 
     return {
@@ -144,6 +133,7 @@ async def get_resources_by_learning_path(user_id: str = "default_user"):
 
     # Group resources by level
     level_resources = {}
+    seen_ids = set()
     for topic in all_topics:
         level = topic["level"]
         matching = [r for r in _RESOURCES if topic["id"] in r.get("topic_ids", [])]
@@ -151,8 +141,22 @@ async def get_resources_by_learning_path(user_id: str = "default_user"):
             if level not in level_resources:
                 level_resources[level] = []
             for r in matching:
-                entry = {**r, "topic_id": topic["id"], "topic_name": topic["name"]}
-                if entry["id"] not in [e["id"] for e in level_resources[level]]:
+                if r["id"] not in seen_ids:
+                    seen_ids.add(r["id"])
+                    entry = {**r, "topic_id": topic["id"], "topic_name": topic["name"]}
                     level_resources[level].append(entry)
 
     return {"levels": level_resources, "total": sum(len(v) for v in level_resources.values())}
+
+
+@router.get("/{resource_id}")
+async def get_resource(resource_id: str):
+    for r in _RESOURCES:
+        if r["id"] == resource_id:
+            return r
+    return {"error": "Resource not found"}
+
+
+@router.post("/generate")
+async def generate_resource(request: dict):
+    return {"status": "generating", "task_id": "pending"}
